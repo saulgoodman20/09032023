@@ -16,6 +16,9 @@ class TODOTaskManager:
         self.tasksList.append(task)
         self.titlesList.append(task.Title)
         okno['titles_combo'].update(values=self.titlesList, value=self.titlesList[len(self.titlesList) - 1])
+    def clearTaskandList(self):
+        okno['title'].update('')
+        okno['description'].update('')
 
 
 
@@ -41,7 +44,7 @@ buttons_layout = [
 
 output_layout = [
     [gui.Text('Lista zadań', font=('Comic Sans MS', 16))],
-    [gui.Combo([], key='titles_combo', size=(50, 1))]
+    [gui.Combo([], key='titles_combo', size=(50, 1), enable_events=True)]
 ]
 
 headers = [
@@ -78,5 +81,8 @@ while True:
         task = TODOTask(taskNo, values['title'], values['description'], False)
         taskNo += 1
         taskManager.updateListsAndCombo()
+        taskManager.clearTaskandList()
     if event == "close":
         break
+    if event == "titles_combo":
+        gui.popup("ą ą")
