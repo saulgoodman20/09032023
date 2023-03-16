@@ -3,9 +3,9 @@ import PySimpleGUI as gui
 # KLASY
 class TODOTask:
     def __init__(self, id, title, description, done):
-        self.Id = id
-        self.Title = title
-        self.Description = description
+        self.Id = id,
+        self.Title = title,
+        self.Description = description,
         self.Done = done
 
 
@@ -19,7 +19,7 @@ titlesList = []
 inputs_layout = [
     [gui.Text('Dodawanie zadania', font=('Comic Sans MS', 16))],
     [gui.Text('Tytul: '), gui.Input(key='title', size=(44, 1))],
-    [gui.Multiline(key='description', size=(50, 4))],
+    [gui.Multiline(key='description', size=(50, 4))]
 ]
 
 buttons_layout = [
@@ -60,12 +60,12 @@ okno = gui.Window('TODO List', layout, font=('Comic Sans MS', 12), element_justi
 def updateListsAndCombo():
     tasksList.append(task)
     titlesList.append(task.Title)
-    okno['titles_combo'].update(values=titlesList, value=len(titlesList) - 1)
+    okno['titles_combo'].update(values=titlesList, value=titlesList[len(titlesList) - 1])
 
 while True:
     event, values = okno.read()
     if event == "add":
-        task = TODOTask(taskNo, values['inp_title'], values['inp_description'], False)
+        task = TODOTask(taskNo, values['title'], values['description'], False)
         taskNo += 1
         updateListsAndCombo()
     if event == "close":
