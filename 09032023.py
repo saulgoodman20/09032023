@@ -16,6 +16,7 @@ class TODOTaskManager:
         self.tasksList.append(task)
         self.titlesList.append(task.Title)
         okno['titles_combo'].update(values=self.titlesList, value=self.titlesList[len(self.titlesList) - 1])
+        self.showTask(self.findTaskWithTitle(task.Title))
     def clearTaskandList(self):
         okno['title'].update('')
         okno['description'].update('')
@@ -29,6 +30,14 @@ class TODOTaskManager:
             if task.Title == title:
                 return task
         return None
+    def checkIfTaskExists(self, title):
+        for task in self.tasksList:
+            if task.Title == title:
+                return True
+        return False
+    def toggleTaskFinished(self, task):
+        task.Done = not task.Done
+        self.showTask(task)
 
 
 
@@ -72,7 +81,7 @@ table = [
         gui.Input(key='inp_id', size=(3, 1), pad=(0, 0)),
         gui.Input(key='inp_title', size=(15, 1), pad=(0, 0)),
         gui.Input(key='inp_description', size=(29, 1), pad=(0, 0)),
-        gui.Checkbox("", key='inp_done', size=(0, 1))
+        gui.Checkbox("", key='inp_done', size=(0, 1), enable_events=True)
     ]
 ]
 
@@ -89,11 +98,16 @@ def updateListsAndCombo():
 while True:
     event, values = okno.read()
     if event == "add":
-        task = TODOTask(taskNo, values['title'], values['description'], False)
-        taskNo += 1
-        taskManager.updateListsAndCombo()
-        taskManager.clearTaskandList()
+        if (taskManager.checkIfTaskExists(values['title']) == False):
+            task = TODOTask(taskNo, values['title'], values['description'], False)
+            taskNo += 1
+            taskManager.updateListsAndCombo()
+            taskManager.clearTaskandList()
+        else:
+            gui.popup('Zadanie o takim tytule już istnieje!')
     if event == "close":
         break
     if event == "titles_combo":
         taskManager.showTask(taskManager.findTaskWithTitle(values['titles_combo']))
+    if event == "inp_done":
+        taskManager.toggleTaskFinished(taskManager.findTaskWithTitle(values['titles_combo']))
