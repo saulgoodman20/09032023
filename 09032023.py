@@ -38,6 +38,11 @@ class TODOTaskManager:
     def toggleTaskFinished(self, task):
         task.Done = not task.Done
         self.showTask(task)
+    def deleteTask(self, task):
+        self.tasksList.remove(task)
+        self.titlesList.remove(task.Title)
+        okno['titles_combo'].update(values=self.titlesList, value=self.titlesList[len(self.titlesList) - 1])
+        self.clearTaskandList()
 
 
 
@@ -85,7 +90,11 @@ table = [
     ]
 ]
 
-layout = inputs_layout + buttons_layout + output_layout + headers + table
+delete_button = [
+    [gui.Button('Usuń', key='delete', size=(55, 1))]
+]
+
+layout = inputs_layout + buttons_layout + output_layout + headers + table + delete_button
 
 okno = gui.Window('TODO List', layout, font=('Comic Sans MS', 12), element_justification='center', element_padding=(10, 5), no_titlebar=True, grab_anywhere=True)
 
@@ -111,3 +120,5 @@ while True:
         taskManager.showTask(taskManager.findTaskWithTitle(values['titles_combo']))
     if event == "inp_done":
         taskManager.toggleTaskFinished(taskManager.findTaskWithTitle(values['titles_combo']))
+    if event == "delete":
+        taskManager.deleteTask(taskManager.findTaskWithTitle(values['titles_combo']))
