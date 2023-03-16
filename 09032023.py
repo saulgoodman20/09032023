@@ -19,6 +19,17 @@ class TODOTaskManager:
     def clearTaskandList(self):
         okno['title'].update('')
         okno['description'].update('')
+    def showTask(self, task):
+        okno['inp_id'].update(task.Id)
+        okno['inp_title'].update(task.Title)
+        okno['inp_description'].update(task.Description)
+        okno['inp_done'].update(task.Done)
+    def findTaskWithTitle(self, title):
+        for task in self.tasksList:
+            if task.Title == title:
+                return task
+        return None
+
 
 
 
@@ -85,4 +96,4 @@ while True:
     if event == "close":
         break
     if event == "titles_combo":
-        gui.popup("ą ą")
+        taskManager.showTask(taskManager.findTaskWithTitle(values['titles_combo']))
