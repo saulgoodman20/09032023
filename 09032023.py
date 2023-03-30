@@ -160,7 +160,8 @@ def registerWindow():
     login_area = [[gui.Text('Login: '), gui.Input(key='login', size=(20, 1))]]
     password_area = [[gui.Text('Hasło: '), gui.Input(key='password', size=(20, 1), password_char='•')]]
     repeat_password_area = [[gui.Text('Powtórz hasło: '), gui.Input(key='repeat_password', size=(20, 1), password_char='•')]]
-    buttons_bottom = [[gui.Button('Załóż konto', key='OK', size=(35, 1))]]
+    buttons_bottom = [[gui.Button('Załóż konto', key='OK', size=(35, 1))],
+                      [gui.Button('Wróć', key='back', size=(35, 1))]]
 
     layout = imie_area + login_area + password_area + repeat_password_area + buttons_bottom
 
@@ -168,7 +169,11 @@ def registerWindow():
     while True:
         event, values = okno.read()
         if event == "OK":
-            break
+            okno.close()
+            MainWindow()
+        if event == "back":
+            okno.close()
+            loginWindow()
 if __name__ == '__main__':
     loginWindow()
 
